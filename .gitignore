@@ -1,0 +1,56 @@
+# --- OS ---
+.DS_Store
+Thumbs.db
+
+# --- IDE / editor ---
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+*.swp
+*.swo
+*~
+
+# --- Cursor / local tooling (do not commit) ---
+.cursor/
+
+# --- Java / Maven (backend) ---
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+
+# --- Logs ---
+*.log
+logs/
+
+# --- Spring / env (never commit real secrets) ---
+backend.env
+application-local.properties
+
+# --- Node / Vite / frontend ---
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+frontend/.env
+frontend/.env.*.local
+frontend/*.local
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/pnpm-debug.log*
+
+# --- Test / coverage ---
+coverage/
+.nyc_output/
+*.lcov
+
+# --- Misc ---
+*.tmp
+*.temp
