@@ -12,15 +12,6 @@
 
 ---
 
-## Tech stack
-
-| Layer | Technologies |
-|--------|----------------|
-| Backend | Java 21, Spring Boot 3, Spring Web, Spring Data JPA, Spring Security, MySQL, Jakarta Validation, JJWT |
-| Frontend | React 18, TypeScript, Vite, React Router, Axios |
-
----
-
 ## Repository layout
 
 This repo is a **small monorepo**: the Spring Boot app lives at the **repository root** (Maven `pom.xml` + `src/main/java`), and the SPA lives under **`frontend/`**.
@@ -57,22 +48,4 @@ The frontend calls the API using a configurable base URL (`VITE_API_BASE_URL`). 
 
 ---
 
-## Prerequisites
-
-- **Java 21** and **Maven**
-- **Node.js 20+** and npm
-- **MySQL 8+** with a database you can point the app at (e.g. `inventoryflow`)
-
----
-
 ## Screenshots
-
----
-
-## Future improvements
-
-- Docker Compose for MySQL + API + optional SPA build
-- Server-side pagination for order lists
-- Audit log or export (CSV) for inventory changes
-
----
