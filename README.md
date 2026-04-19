@@ -60,9 +60,3 @@ The frontend calls the API using a configurable base URL (`VITE_API_BASE_URL`). 
 - **Java 21** and **Maven**
 - **Node.js 20+** and npm
 - **MySQL 8+** with a database you can point the app at (e.g. `inventoryflow`)
-
-
-- **Repository name:** `inventoryflow` (or `inventoryflow-fullstack`)
-- **Short description:** *Full-stack inventory & orders demo — Spring Boot, JWT, MySQL, React + TypeScript + Vite*
-- **Topics:** `spring-boot`, `java`, `mysql`, `jwt`, `react`, `typescript`, `vite`, `fullstack`
->>>>>>> 14ecfba (deploy pass)
