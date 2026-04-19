@@ -17,11 +17,13 @@ import com.inventoryflow.service.SalesOrderService;
 import java.math.BigDecimal;
 import java.util.List;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component
+@ConditionalOnProperty(prefix = "inventoryflow", name = "seed.enabled", havingValue = "true")
 public class DataSeeder implements CommandLineRunner {
 
   private final RoleRepository roleRepository;

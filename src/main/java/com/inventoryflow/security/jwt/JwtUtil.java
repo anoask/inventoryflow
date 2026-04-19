@@ -23,7 +23,20 @@ public class JwtUtil {
       @Value("${inventoryflow.jwt.expiration-ms}") long expirationMs,
       @Value("${inventoryflow.jwt.issuer}") String issuer
   ) {
-    this.signingKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+    if (secret == null || secret.isBlank()) {
+      throw new IllegalStateException(
+          "JWT secret is missing or blank. Set INVENTORYFLOW_JWT_SECRET (prod needs SPRING_PROFILES_ACTIVE=prod)."
+      );
+    }
+    byte[] keyBytes = secret.getBytes(StandardCharsets.UTF_8);
+    if (keyBytes.length < 32) {
+      throw new IllegalStateException(
+          "INVENTORYFLOW_JWT_SECRET must be at least 32 UTF-8 bytes for HS256 (got "
+              + keyBytes.length
+              + "). Use a longer random string in Railway variables."
+      );
+    }
+    this.signingKey = Keys.hmacShaKeyFor(keyBytes);
     this.expirationMs = expirationMs;
     this.issuer = issuer;
   }

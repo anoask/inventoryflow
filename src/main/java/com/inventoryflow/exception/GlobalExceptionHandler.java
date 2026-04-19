@@ -13,10 +13,13 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+  private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
   private static final String CODE = "code";
 
   @ExceptionHandler(ResourceNotFoundException.class)
@@ -101,7 +104,8 @@ public class GlobalExceptionHandler {
       Exception ex,
       HttpServletRequest request
   ) {
-    // Don't leak internal details for production safety.
+    // Don't leak internal details to clients; log server-side for Railway / local debugging.
+    log.error("Unhandled exception on {}", request.getRequestURI(), ex);
     return build(HttpStatus.INTERNAL_SERVER_ERROR, "Unexpected error", request, "INTERNAL_ERROR");
   }
 

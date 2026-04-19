@@ -1,7 +1,8 @@
 import axios from 'axios'
 
 const rawBase = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8080'
-const baseURL = rawBase.replace(/\/$/, '')
+// Strip trailing slash and accidental `/api` suffix (paths already include `/api/...`).
+const baseURL = rawBase.replace(/\/$/, '').replace(/\/api$/i, '')
 
 export const api = axios.create({
   baseURL,

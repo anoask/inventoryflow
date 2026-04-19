@@ -26,6 +26,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -37,15 +38,18 @@ public class SecurityConfig {
   private final JwtAuthenticationFilter jwtAuthenticationFilter;
   private final CustomUserDetailsService customUserDetailsService;
   private final ObjectMapper objectMapper;
+  private final String corsAllowedOrigins;
 
   public SecurityConfig(
       JwtAuthenticationFilter jwtAuthenticationFilter,
       CustomUserDetailsService customUserDetailsService,
-      ObjectMapper objectMapper
+      ObjectMapper objectMapper,
+      @Value("${inventoryflow.cors.allowed-origins:}") String corsAllowedOrigins
   ) {
     this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     this.customUserDetailsService = customUserDetailsService;
     this.objectMapper = objectMapper;
+    this.corsAllowedOrigins = corsAllowedOrigins;
   }
 
   @Bean
@@ -72,10 +76,18 @@ public class SecurityConfig {
   public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration config = new CorsConfiguration();
     config.setAllowCredentials(true);
-    config.addAllowedOriginPattern("http://localhost:*");
-    config.addAllowedOriginPattern("http://127.0.0.1:*");
     config.addAllowedHeader("*");
     config.addAllowedMethod("*");
+    config.addAllowedOriginPattern("http://localhost:*");
+    config.addAllowedOriginPattern("http://127.0.0.1:*");
+    if (corsAllowedOrigins != null && !corsAllowedOrigins.isBlank()) {
+      for (String raw : corsAllowedOrigins.split(",")) {
+        String origin = raw.trim();
+        if (!origin.isEmpty()) {
+          config.addAllowedOriginPattern(origin);
+        }
+      }
+    }
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
     source.registerCorsConfiguration("/api/**", config);
     return source;

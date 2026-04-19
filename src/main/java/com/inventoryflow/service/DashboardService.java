@@ -10,15 +10,11 @@ import com.inventoryflow.repository.ProductRepository;
 import com.inventoryflow.repository.PurchaseOrderRepository;
 import com.inventoryflow.repository.SalesOrderRepository;
 import java.util.List;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class DashboardService {
-
-  private static final int RECENT_LIMIT = 5;
 
   private final ProductRepository productRepository;
   private final PurchaseOrderRepository purchaseOrderRepository;
@@ -41,16 +37,14 @@ public class DashboardService {
 
   @Transactional(readOnly = true)
   public List<RecentPurchaseOrderDto> recentPurchaseOrders() {
-    var pageable = PageRequest.of(0, RECENT_LIMIT, Sort.by(Sort.Direction.DESC, "createdAt"));
-    return purchaseOrderRepository.findAll(pageable).getContent().stream()
+    return purchaseOrderRepository.findTop5ByOrderByCreatedAtDesc().stream()
         .map(this::toRecentPurchase)
         .toList();
   }
 
   @Transactional(readOnly = true)
   public List<RecentSalesOrderDto> recentSalesOrders() {
-    var pageable = PageRequest.of(0, RECENT_LIMIT, Sort.by(Sort.Direction.DESC, "createdAt"));
-    return salesOrderRepository.findAll(pageable).getContent().stream()
+    return salesOrderRepository.findTop5ByOrderByCreatedAtDesc().stream()
         .map(this::toRecentSales)
         .toList();
   }
